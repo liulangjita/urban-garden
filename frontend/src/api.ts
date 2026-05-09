@@ -1,5 +1,5 @@
-// 使用相对路径，通过Vite代理访问后端API
-const API_BASE_URL = '/api';
+// 开发环境使用相对路径（Vite proxy），生产环境使用环境变量配置的完整地址
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export interface Plot {
   id: string;
