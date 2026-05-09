@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header">
+    <h2>仪表盘</h2>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="label">总地块数量</div>
+        <div class="value">{{ stats.totalPlots }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">已出租地块</div>
+        <div class="value">{{ stats.rentedCount }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">月收入（元）</div>
+        <div class="value">{{ stats.monthlyRevenue }}</div>
+    </div>
+</div>
+
+<div class="data-table">
+    <h3 style="margin-bottom: 15px;">最近添加的地块</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>地块名称</th>
+                <th>位置</th>
+                <th>面积(m²)</th>
+                <th>年租金</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plot in plots[:5] %}
+            <tr>
+                <td>{{ plot.title }}</td>
+                <td>{{ plot.location }}</td>
+                <td>{{ plot.area }}</td>
+                <td>{{ plot.annual_rent }} 元/m²</td>
+                <td>
+                    {% if plot.status == 'available' %}
+                    <span class="status-available">可用</span>
+                    {% else %}
+                    <span class="status-rented">已租</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/plots/{{ plot.id }}/edit" class="btn-edit">编辑</a>
+                    <a href="/plots/{{ plot.id }}/delete" class="btn-delete">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

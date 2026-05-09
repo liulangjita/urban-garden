@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header">
+    <h2>
+        {% if plot.id %}
+        编辑地块
+        {% else %}
+        添加地块
+        {% endif %}
+    </h2>
+</div>
+
+<div class="form-container">
+    <form method="POST" action="{% if plot.id %}/plots/{{ plot.id }}/update{% else %}/plots/create{% endif %}">
+        <div class="form-group">
+            <label>地块名称</label>
+            <input type="text" name="title" value="{{ plot.title or '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>副标题</label>
+            <input type="text" name="sub_title" value="{{ plot.sub_title or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>位置</label>
+            <input type="text" name="location" value="{{ plot.location or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>面积 (平方米)</label>
+            <input type="number" name="area" value="{{ plot.area or 0 }}" step="0.1">
+        </div>
+
+        <div class="form-group">
+            <label>土壤类型</label>
+            <input type="text" name="soil_type" value="{{ plot.soil_type or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>光照条件</label>
+            <input type="text" name="light_condition" value="{{ plot.light_condition or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>水费 (元/吨)</label>
+            <input type="number" name="water_price" value="{{ plot.water_price or 0 }}" step="0.1">
+        </div>
+
+        <div class="form-group">
+            <label>年租金 (元/平方米)</label>
+            <input type="number" name="annual_rent" value="{{ plot.annual_rent or 0 }}" step="0.1">
+        </div>
+
+        <div class="form-group">
+            <label>业主姓名</label>
+            <input type="text" name="owner_name" value="{{ plot.owner_name or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>业主电话</label>
+            <input type="text" name="owner_phone" value="{{ plot.owner_phone or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>业主头像链接</label>
+            <input type="text" name="owner_avatar" value="{{ plot.owner_avatar or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>描述</label>
+            <textarea name="description">{{ plot.description or '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>图片链接 (逗号分隔)</label>
+            <input type="text" name="images" value="{{ plot.images or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>标签 (逗号分隔)</label>
+            <input type="text" name="tags" value="{{ plot.tags or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>所属园区</label>
+            <select name="garden_id" required>
+                {% for garden in gardens %}
+                <option value="{{ garden.id }}" {% if plot.garden_id == garden.id %}selected{% endif %}>{{ garden.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>状态</label>
+            <select name="status">
+                <option value="available" {% if plot.status == 'available' %}selected{% endif %}>可用</option>
+                <option value="rented" {% if plot.status == 'rented' %}selected{% endif %}>已租</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">保存</button>
+            <a href="/plots" class="btn-cancel">取消</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

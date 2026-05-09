@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header">
+    <h2>园区管理</h2>
+    <div class="actions">
+        <a href="/gardens/new">添加园区</a>
+    </div>
+</div>
+
+<div class="data-table">
+    <table>
+        <thead>
+            <tr>
+                <th>园区名称</th>
+                <th>地址</th>
+                <th>描述</th>
+                <th>地块数量</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for garden in gardens %}
+            <tr>
+                <td>{{ garden.name }}</td>
+                <td>{{ garden.address }}</td>
+                <td>{{ garden.description }}</td>
+                <td>{{ garden.plot_count }}</td>
+                <td>
+                    <a href="/gardens/{{ garden.id }}/edit" class="btn-edit">编辑</a>
+                    <a href="/gardens/{{ garden.id }}/delete" class="btn-delete">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

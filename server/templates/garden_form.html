@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header">
+    <h2>
+        {% if garden.id %}
+        编辑园区
+        {% else %}
+        添加园区
+        {% endif %}
+    </h2>
+</div>
+
+<div class="form-container">
+    <form method="POST" action="{% if garden.id %}/gardens/{{ garden.id }}/update{% else %}/gardens/create{% endif %}">
+        <div class="form-group">
+            <label>园区名称</label>
+            <input type="text" name="name" value="{{ garden.name or '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>地址</label>
+            <input type="text" name="address" value="{{ garden.address or '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>经度</label>
+            <input type="number" name="lng" value="{{ garden.lng or 0 }}" step="0.01">
+        </div>
+
+        <div class="form-group">
+            <label>纬度</label>
+            <input type="number" name="lat" value="{{ garden.lat or 0 }}" step="0.01">
+        </div>
+
+        <div class="form-group">
+            <label>描述</label>
+            <textarea name="description">{{ garden.description or '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>缩略图链接</label>
+            <input type="text" name="thumb" value="{{ garden.thumb or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>所属区域</label>
+            <select name="region_id">
+                {% for region in regions %}
+                {% if region.level == 'district' %}
+                <option value="{{ region.id }}" {% if garden.region_id == region.id %}selected{% endif %}>{{ region.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">保存</button>
+            <a href="/gardens" class="btn-cancel">取消</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

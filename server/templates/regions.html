@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header">
+    <h2>区域管理</h2>
+</div>
+
+<div class="data-table">
+    <table>
+        <thead>
+            <tr>
+                <th>区域名称</th>
+                <th>级别</th>
+                <th>上级区域</th>
+                <th>坐标</th>
+                <th>园区数量</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for region in regions %}
+            <tr>
+                <td>{{ region.name }}</td>
+                <td>
+                    {% if region.level == 'province' %}
+                    省级
+                    {% elif region.level == 'city' %}
+                    市级
+                    {% elif region.level == 'district' %}
+                    区县级
+                    {% endif %}
+                </td>
+                <td>{{ region.parent_name or '-' }}</td>
+                <td>
+                    {% if region.lat %}
+                    {{ region.lat }}{{ "," }}{{ region.lng }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>{{ region.garden_count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

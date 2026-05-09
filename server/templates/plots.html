@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header">
+    <h2>地块管理</h2>
+    <div class="actions">
+        <a href="/plots/new">添加地块</a>
+    </div>
+</div>
+
+<div class="data-table">
+    <table>
+        <thead>
+            <tr>
+                <th>地块名称</th>
+                <th>位置</th>
+                <th>面积(m²)</th>
+                <th>土壤类型</th>
+                <th>年租金</th>
+                <th>业主</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plot in plots %}
+            <tr>
+                <td>{{ plot.title }}</td>
+                <td>{{ plot.location }}</td>
+                <td>{{ plot.area }}</td>
+                <td>{{ plot.soil_type }}</td>
+                <td>{{ plot.annual_rent }} 元/m²</td>
+                <td>{{ plot.owner_name }}</td>
+                <td>
+                    {% if plot.status == 'available' %}
+                    <span class="status-available">可用</span>
+                    {% else %}
+                    <span class="status-rented">已租</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/plots/{{ plot.id }}/edit" class="btn-edit">编辑</a>
+                    <a href="/plots/{{ plot.id }}/delete" class="btn-delete">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
